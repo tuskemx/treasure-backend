@@ -4,14 +4,20 @@
   "description": "Mitch has gone into business!",
   "main": "index.js",
   "dependencies": {
+    "chai": "^4.2.0",
     "faker": "^4.1.0",
     "knex": "^0.15.2",
     "lodash": "^4.17.11",
     "lodash.random": "^3.2.0",
-    "pg": "^7.8.0"
+    "mocha": "^6.1.4",
+    "pg": "^7.10.0"
   },
   "scripts": {
-    "fetch-dev-data": "node ./utils/fetch-dev-data.js"
+    "fetch-dev-data": "node ./utils/fetch-dev-data.js",
+    "setup-test-db": "psql -f db/test-setup.sql",
+    "seed-dev": "npm run setup-dev-db && knex seed:run",
+    "seed-test": "npm run setup-test-db && NODE_ENV=test knex seed:run",
+    "test": "mocha spec"
   },
   "keywords": [],
   "author": "",
