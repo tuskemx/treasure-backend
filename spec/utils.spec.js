@@ -1,9 +1,28 @@
 const {
-  formatShopData
+  nameIdPair
 } = require('../utils/formattingFunctions');
+
 const {
   expect
 } = require('chai')
+
+
+
+describe('nameIdPair', () => {
+  it('[{}] --> []', () => {
+    const input = [{}]
+    const desired = [];
+    expect(input).to.eql(desired);
+  });
+});
+
+
+
+
+
+
+
+
 
 describe('formatShopData', () => {
   it('[{}] --> []', () => {

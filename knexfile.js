@@ -5,7 +5,9 @@ const dbConfig = {
   development: {
     client: 'pg',
     connection: {
-      database: './db/dev-setup'
+      database: 'mitchs_rare_treasures_test',
+      username: 'tuskem',
+      password: 'nc123'
     },
     seeds: {
       directory: './db/seeds'
@@ -14,6 +16,8 @@ const dbConfig = {
   test: {
     client: 'pg',
     connection: {
+      username: 'tuskem',
+      password: 'nc123',
       database: 'mitchs_rare_treasures_test'
     },
     seeds: {
