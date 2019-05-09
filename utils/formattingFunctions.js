@@ -15,31 +15,36 @@ const formatShopData = (shops, valuePair) => {
     newShop.owner_id = valuePair[shop.owner]
     delete newShop.owner
     return newShop;
-    // if (shop['owner'] === valuePair['forename']) {
-    //   shop.owner_id = valuePair['forename'];}
-
-    //because map returns an array and trying to assign objects
-
-
-
-
   });
 
   return newShops;
 
+}
+
+const shopIdPair = (shopObj) => {
+  const newShopObj = shopObj.reduce((obj, item) => {
+    obj[item.shop_name] = item.shop_id;
+    return obj;
+  }, {})
+  return newShopObj
+}
+
+const formatTreasure = (treasure, shopPair) => {
+  const newTreasure = treasure.map(function (piece) {
+    const newTreasurepiece = { ...piece }
+    newTreasurepiece.shop_id = shopPair[piece.shop]
+    delete newTreasurepiece.shop;
+    return newTreasurepiece;
+  });
+
+  return newTreasure;
 
 }
 
 
-
-// const formatShopData = (obj) => {
-//   return obj.map(function (el) {
-//     obj.owner_id = el.owner_id;
-//     delete obj.owner;
-//   })
-// }
-
 module.exports = {
   nameIdPair,
-  formatShopData
+  formatShopData,
+  shopIdPair,
+  formatTreasure
 }

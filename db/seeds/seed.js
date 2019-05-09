@@ -1,26 +1,7 @@
 const ownerData = require('../data/test-data/owners');
 const shop = require('../data/test-data/shops');
-const { nameIdPair } = require('../../utils/formattingFunctions')
-const { formatShopData } = require('../../utils/formattingFunctions')
-
-
-
-
-// count = 1;
-// ownerData.forEach(function (el) {
-//   el.owner_id = count;
-//   count++
-// }
-// });
-
-// console.log(ownerData);
-
-// shop.map(function (ind) {
-//   if (ind['owner'] === ownerData['forename'])
-//     ind[owner_id] = ownerData[forename];
-// });
-// console.log(shop);
-
+const treasure = require('../data/test-data/treasures')
+const { nameIdPair, formatShopData, shopIdPair, formatTreasure } = require('../../utils/formattingFunctions')
 
 
 exports.seed = function (knex, Promise) {
@@ -37,11 +18,22 @@ exports.seed = function (knex, Promise) {
       console.log(logShop);
       console.log("logshop above post then")
       return knex
-      .insert(logShop)
+        .insert(logShop)
         .into('shops')
+        .returning('*');
+    }).then((insertedShops) => {
+      const shopPair = shopIdPair(insertedShops);
+      console.log(shopPair);
+      const logTreasure = formatTreasure(treasure, shopPair);
+      console.log(logTreasure);
+      return logTreasure;
+    }).then((logTreasure) => {
+      console.log(logTreasure);
+      console.log("current LAST THEN BLOCK");
+      return knex
+        .insert(logTreasure)
+        .into('treasures')
         .returning('*')
-        
-
     })
 }
 
