@@ -149,6 +149,7 @@ describe('/api', () => {
           treasure_id: 50,
           shop_id: 5
         }]);
+        //ADD DESTROY CONNECTION THING AT TOP OF THIS IT TO STOP TREASURE ID PROBLEM
       });
   });
 });
