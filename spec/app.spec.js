@@ -91,12 +91,71 @@ describe('/api', () => {
         .get('/api/treasure?max_age=20')
         .expect(200)
         .then(res => {
-          console.log(res.body.treasure)
+
           expect(res.body.treasure[0].age).to.be.lessThan(20)
         })
     })
   })
-})
+  it('returns treasures with minimum age of 20', () => {
+    return request(app)
+      .get('/api/treasure?min_age=20')
+      .expect(200)
+      .then(res => {
+        console.log(res.body.treasure[3])
+        expect(res.body.treasure[3].age).to.be.greaterThan(20)
+      })
+  });
+  it('returns treasures below £50 only', () => {
+    return request(app)
+      .get('/api/treasure?max_price=50')
+      .expect(200)
+      .then(res => {
+        const newBody = res.body.treasure.map(function (el) {
+          el.cost_at_auction = Number(el.cost_at_auction)
+          return el;
+        })
+        expect(newBody[newBody.length - 1].cost_at_auction).to.be.lessThan(50.00);
+      });
+  });
+  it('returns treasures above £50 only', () => {
+    return request(app)
+      .get('/api/treasure?min_price=50')
+      .expect(200)
+      .then(res => {
+        const newBody = res.body.treasure.map(function (el) {
+          el.cost_at_auction = Number(el.cost_at_auction)
+          return el;
+        })
+        expect(newBody[0].cost_at_auction).to.be.greaterThan(50.00);
+      });
+  });
+  it.only('inserts new treasure', () => {
+    return request(app)
+      .post('/api/treasure')
+      .send({
+        treasure_name: 'treasure-chest',
+        colour: 'brown',
+        age: 72,
+        cost_at_auction: '99999.00',
+        shop_id: 5
+      })
+      .expect(201)
+      .then((res) => {
+        expect(res.body.treasure).to.eql([{
+          treasure_name: 'treasure-chest',
+          colour: 'brown',
+          age: 72,
+          cost_at_auction: '99999.00',
+          treasure_id: 50,
+          shop_id: 5
+        }]);
+      });
+  });
+});
+
+
+
+
 
 //// GET /search?q=tobi+ferret
 // req.query.q
